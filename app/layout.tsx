@@ -24,8 +24,6 @@ export default function RootLayout({
 }>) {
   const bodyClassName = `${geistSans.variable} ${geistMono.variable} antialiased`;
 
-  // Some browser extensions inject attributes on <body> before React hydrates,
-  // so we suppress those false-positive mismatch warnings at the root.
   return (
     <html lang="en">
       <body suppressHydrationWarning className={bodyClassName}>

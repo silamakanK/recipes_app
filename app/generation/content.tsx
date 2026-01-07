@@ -27,6 +27,8 @@ export default function GenerationContent() {
   const [result, setResult] = useState<GeneratedRecipe>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const normalizedSteps = normalizeEntries(result?.steps ?? null, /\r?\n/);
+  const normalizedIngredients = normalizeEntries(result?.ingredients ?? null, /[,\n]/);
 
   const handleIngredientKey = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -237,11 +239,7 @@ export default function GenerationContent() {
                 <div>
                   <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Étapes</p>
                   <ol className="mt-3 space-y-2 text-sm text-slate-600">
-                    {(Array.isArray(result.steps)
-                      ? result.steps
-                      : typeof result.steps === "string"
-                      ? result.steps.split(/\r?\n/).map((s) => s.trim()).filter(Boolean)
-                      : []).map((step, index) => (
+                    {normalizedSteps.map((step, index) => (
                       <li key={`${step}-${index}`} className="rounded-2xl bg-slate-50 p-3">
                         <span className="font-semibold text-slate-900">{index + 1}.</span> {step}
                       </li>
@@ -251,11 +249,7 @@ export default function GenerationContent() {
                 <div>
                   <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Liste de courses</p>
                   <div className="mt-3 flex flex-wrap gap-2 text-sm text-slate-600">
-                    {(Array.isArray(result.ingredients)
-                      ? result.ingredients
-                      : typeof result.ingredients === "string"
-                      ? result.ingredients.split(/[,\n]/).map((s) => s.trim()).filter(Boolean)
-                      : []).map((item) => (
+                    {normalizedIngredients.map((item) => (
                       <span key={item} className="rounded-full border border-slate-200 px-3 py-1">
                         {item}
                       </span>
@@ -305,4 +299,19 @@ function formatValue(value: number | null, unit: string) {
     return `0 ${unit}`;
   }
   return `${value} ${unit}`;
+}
+
+function normalizeEntries(value: unknown, splitPattern: RegExp | string) {
+  if (Array.isArray(value)) {
+    return value
+      .map((entry) => (typeof entry === "string" ? entry.trim() : ""))
+      .filter((entry): entry is string => Boolean(entry));
+  }
+  if (typeof value === "string") {
+    return value
+      .split(splitPattern)
+      .map((entry) => entry.trim())
+      .filter(Boolean);
+  }
+  return [];
 }
