@@ -13,9 +13,6 @@ export default async function supabase(){
         : undefined
   );
 
-  console.log("SUPABASE_URL =", process.env.SUPABASE_URL);
-  console.log("HAS ANON KEY =", process.env.SUPABASE_KEY);
-
   return client;
 }
  

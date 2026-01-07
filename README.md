@@ -1,5 +1,17 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment variables
+
+Create a `.env.local` file with your Supabase credentials:
+
+```
+SUPABASE_URL=<your-project-url>
+SUPABASE_KEY=<your-anon-key>
+SUPABASE_SERVICE_ROLE_KEY=<your-service-role-key>
+```
+
+The `SUPABASE_SERVICE_ROLE_KEY` is read only by server actions (never shipped to the client) and is required to upload avatars to the secured Supabase Storage bucket.
+
 ## Getting Started
 
 First, run the development server:

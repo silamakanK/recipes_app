@@ -3,7 +3,7 @@
 import { login } from "@/actions/login";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, SVGProps, useState, useTransition } from "react";
 
 const HERO_IMAGE =
@@ -13,6 +13,7 @@ export default function Connexion() {
   const [feedback, setFeedback] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,13 +28,17 @@ export default function Connexion() {
         return;
       }
 
-      router.push("/recettes");
+      const redirectTo = searchParams.get("redirectTo");
+      const destination =
+        redirectTo && redirectTo.startsWith("/") ? redirectTo : "/recettes";
+
+      router.push(destination);
     });
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 py-8 sm:py-12 lg:py-16">
-      <div className="mx-auto hidden min-h-[720px] max-w-6xl grid-cols-2 overflow-hidden rounded-[2.5rem] border border-slate-200 bg-white shadow-2xl lg:grid">
+    <div className="min-h-screen bg-gradient-to-b from-[#f4fbf7] via-[#eef7f2] to-[#e6f3eb] py-8 sm:py-12 lg:py-16">
+      <div className="mx-auto hidden min-h-[720px] max-w-6xl grid-cols-2 overflow-hidden rounded-[2.5rem] border border-brand-soft bg-white shadow-[0_40px_120px_rgba(96,153,62,0.18)] lg:grid">
         <section className="relative">
           <Image
             src={HERO_IMAGE}
@@ -81,7 +86,7 @@ export default function Connexion() {
       </div>
 
       <div className="px-4 lg:hidden">
-        <div className="mx-auto max-w-md overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-2xl">
+        <div className="mx-auto max-w-md overflow-hidden rounded-[32px] border border-brand-soft bg-white shadow-[0_25px_80px_rgba(96,153,62,0.2)]">
           <div className="flex items-center gap-3 border-b border-slate-100 px-5 py-4">
             <button
               type="button"
@@ -114,11 +119,11 @@ function LoginCard({ onSubmit, feedback, isPending }: LoginCardProps) {
   return (
     <div className="w-full max-w-md">
       <div className="space-y-4 text-center">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-100 text-indigo-600">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-soft text-brand">
           <ChefHatIcon className="h-7 w-7" />
         </div>
         <div>
-          <p className="text-2xl font-semibold text-slate-900">Nutri Smart.</p>
+          <p className="text-2xl font-semibold text-slate-900">ChefIA.</p>
           <p className="mt-2 text-sm text-slate-500">
             Connectez-vous pour accéder à vos recettes et votre suivi nutritionnel.
           </p>
@@ -138,7 +143,7 @@ function LoginCard({ onSubmit, feedback, isPending }: LoginCardProps) {
 
         <div>
           <div className="text-sm font-medium text-slate-600">Email</div>
-          <div className="mt-2 flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus-within:border-indigo-500 focus-within:bg-white">
+          <div className="mt-2 flex items-center gap-3 rounded-2xl border border-brand-soft bg-brand-soft px-4 py-3 shadow-sm focus-within:border-brand focus-within:bg-white">
             <MailIcon className="h-5 w-5 text-slate-400" aria-hidden="true" />
             <input
               className="w-full border-0 bg-transparent text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-0"
@@ -156,11 +161,11 @@ function LoginCard({ onSubmit, feedback, isPending }: LoginCardProps) {
         <div>
           <div className="flex items-center justify-between text-sm font-medium text-slate-600">
             <span>Mot de passe</span>
-            <button type="button" className="text-xs font-semibold text-indigo-600">
+            <button type="button" className="text-xs font-semibold text-brand">
               Mot de passe oublié ?
             </button>
           </div>
-          <div className="mt-2 flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus-within:border-indigo-500 focus-within:bg-white">
+          <div className="mt-2 flex items-center gap-3 rounded-2xl border border-brand-soft bg-brand-soft px-4 py-3 shadow-sm focus-within:border-brand focus-within:bg-white">
             <LockIcon className="h-5 w-5 text-slate-400" aria-hidden="true" />
             <input
               className="w-full border-0 bg-transparent text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-0"
@@ -176,7 +181,7 @@ function LoginCard({ onSubmit, feedback, isPending }: LoginCardProps) {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="rounded-full p-1 text-slate-400 transition hover:text-indigo-500"
+              className="rounded-full p-1 text-slate-400 transition hover:text-brand"
               aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
               aria-pressed={showPassword}
             >
@@ -191,7 +196,7 @@ function LoginCard({ onSubmit, feedback, isPending }: LoginCardProps) {
 
         <button
           type="submit"
-          className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-500 to-sky-500 px-4 py-3 text-base font-semibold text-white shadow-lg transition hover:opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand px-4 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-brand-strong focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-60"
           disabled={isPending}
         >
           {isPending ? "Connexion..." : "Se connecter"}
@@ -202,7 +207,7 @@ function LoginCard({ onSubmit, feedback, isPending }: LoginCardProps) {
           Pas encore de compte ?{" "}
           <Link
             href="/inscription"
-            className="font-semibold text-indigo-600 underline-offset-4 hover:underline"
+            className="font-semibold text-brand underline-offset-4 hover:underline"
           >
             Créer un compte
           </Link>

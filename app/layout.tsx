@@ -22,11 +22,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const bodyClassName = `${geistSans.variable} ${geistMono.variable} antialiased`;
+
+  // Some browser extensions inject attributes on <body> before React hydrates,
+  // so we suppress those false-positive mismatch warnings at the root.
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body suppressHydrationWarning className={bodyClassName}>
         {children}
       </body>
     </html>

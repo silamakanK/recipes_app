@@ -46,8 +46,8 @@ export default function Inscription() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 py-8 sm:py-12 lg:py-16">
-      <div className="mx-auto hidden min-h-[720px] max-w-6xl grid-cols-2 overflow-hidden rounded-[2.5rem] border border-slate-200 bg-white shadow-2xl lg:grid">
+    <div className="min-h-screen bg-gradient-to-b from-[#f4fbf7] via-[#eef7f2] to-[#e6f3eb] py-8 sm:py-12 lg:py-16">
+      <div className="mx-auto hidden min-h-[720px] max-w-6xl grid-cols-2 overflow-hidden rounded-[2.5rem] border border-brand-soft bg-white shadow-[0_40px_120px_rgba(96,153,62,0.18)] lg:grid">
         <section className="relative">
           <Image
             src={HERO_IMAGE}
@@ -92,7 +92,7 @@ export default function Inscription() {
         <section className="flex flex-col justify-center px-8 py-10 sm:px-12">
           <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-100 text-sky-600">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-soft text-brand">
                 <ChefHatIcon className="h-6 w-6" />
               </div>
               <div>
@@ -105,16 +105,16 @@ export default function Inscription() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 rounded-full bg-slate-100 p-1 text-sm font-semibold text-slate-500">
-              <Link
-                href="/connexion"
-                className="flex-1 rounded-full px-4 py-2 text-center transition hover:text-slate-900"
-              >
-                Connexion
-              </Link>
-              <span className="flex-1 rounded-full bg-white px-4 py-2 text-center text-sky-600 shadow">
+            <div className="space-y-2">
+              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-brand">
                 Inscription
-              </span>
+              </p>
+              <h2 className="text-3xl font-semibold text-slate-900">
+                Créez votre compte
+              </h2>
+              <p className="text-sm text-slate-500">
+                Commencez votre aventure culinaire dès aujourd&apos;hui.
+              </p>
             </div>
           </div>
 
@@ -128,7 +128,7 @@ export default function Inscription() {
       </div>
 
       <div className="px-4 lg:hidden">
-        <div className="mx-auto max-w-md overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-2xl">
+        <div className="mx-auto max-w-md overflow-hidden rounded-[32px] border border-brand-soft bg-white shadow-[0_25px_80px_rgba(96,153,62,0.2)]">
           <div className="flex items-center gap-3 border-b border-slate-100 px-5 py-4">
             <button
               type="button"
@@ -189,13 +189,16 @@ function SignupForm({
   isPending,
 }: SignupFormProps) {
   const fieldBackground =
-    variant === "desktop" ? "bg-slate-50" : "bg-white shadow-sm";
+    variant === "desktop" ? "bg-brand-soft" : "bg-white shadow-sm";
   const mutedText =
     variant === "desktop" ? "text-slate-500" : "text-slate-500";
-  const borderColor = "border border-slate-200";
+  const borderColor =
+    variant === "desktop"
+      ? "border border-brand-soft"
+      : "border border-slate-200";
   const buttonClass =
     variant === "desktop"
-      ? "bg-sky-500 hover:bg-sky-600 focus-visible:outline-sky-500"
+      ? "bg-brand hover:bg-brand-strong focus-visible:outline-brand"
       : "bg-gradient-to-r from-[#7a5bff] to-[#6366f1] hover:opacity-95 focus-visible:outline-[#7a5bff]";
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -285,7 +288,7 @@ function SignupForm({
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="rounded-full p-1 text-slate-400 transition hover:text-sky-500"
+            className="rounded-full p-1 text-slate-400 transition hover:text-brand"
             aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
             aria-pressed={showPassword}
           >
@@ -324,7 +327,7 @@ function SignupForm({
           <button
             type="button"
             onClick={() => setShowConfirmation((prev) => !prev)}
-            className="rounded-full p-1 text-slate-400 transition hover:text-sky-500"
+            className="rounded-full p-1 text-slate-400 transition hover:text-brand"
             aria-label={
               showConfirmation
                 ? "Masquer la confirmation du mot de passe"
@@ -352,11 +355,11 @@ function SignupForm({
 
       <p className={`text-center text-xs ${mutedText}`}>
         En vous inscrivant, vous acceptez nos{" "}
-        <button type="button" className="font-semibold text-sky-600">
+        <button type="button" className="font-semibold text-brand">
           Conditions d&apos;utilisation
         </button>{" "}
         et notre{" "}
-        <button type="button" className="font-semibold text-sky-600">
+        <button type="button" className="font-semibold text-brand">
           Politique de confidentialité
         </button>
         .
@@ -367,7 +370,7 @@ function SignupForm({
         Vous avez déjà un compte ?{" "}
         <Link
           href="/connexion"
-          className="font-semibold text-sky-600 underline-offset-4 hover:underline"
+          className="font-semibold text-brand underline-offset-4 hover:underline"
         >
           Connectez-vous
         </Link>
