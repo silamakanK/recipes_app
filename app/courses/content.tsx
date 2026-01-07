@@ -25,6 +25,22 @@ type ShoppingCategory = {
   color: string;
 };
 
+type MacroProfile = {
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+};
+
+type IngredientPriceEntry = {
+  keywords: string[];
+  label: string;
+  unit: string;
+  price: number;
+  category: ShoppingCategoryId;
+  nutrition: Partial<MacroProfile>;
+};
+
 const STORAGE_KEY = "nutrismart-shopping-list";
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80";
 
@@ -324,8 +340,8 @@ export default function CoursesContent({ recipes, userName }: CoursesContentProp
   const shareTarget = userName?.split(" ")[0] ?? "votre coach";
 
   return (
-    <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-16 pt-8 lg:px-6">
-      <header className="max-w-3xl space-y-3">
+    <main className="mx-auto w-full max-w-[90rem] flex-1 px-4 pb-16 pt-8 lg:px-6">
+      <header className="max-w-4xl space-y-3">
         <p className="text-sm font-semibold uppercase tracking-[0.35em] text-brand">Liste de Courses</p>
         <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">Génération de liste intelligente</h1>
         <p className="text-sm text-slate-500">
@@ -357,7 +373,7 @@ export default function CoursesContent({ recipes, userName }: CoursesContentProp
         </div>
       </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(320px,1fr)]">
+      <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,2.2fr)_minmax(360px,1fr)] xl:grid-cols-[minmax(0,2.4fr)_minmax(420px,1fr)]">
         <section className="space-y-5 rounded-[32px] border border-slate-100 bg-white p-6 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-lg font-semibold text-slate-900">Vos recettes ({filteredRecipes.length})</h2>
