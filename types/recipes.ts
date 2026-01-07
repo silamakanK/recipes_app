@@ -27,3 +27,7 @@ export type RecipeDetail = RecipeSummary & {
   steps: string[] | null;
   nutrients: Nutrient[] | null;
 };
+
+export type RecipeWithIngredients = RecipeSummary & {
+  ingredients: string[] | null;
+};

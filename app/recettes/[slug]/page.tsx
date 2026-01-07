@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { MainNav } from "@/components/MainNav";
 import supabase, { getUser } from "@/supabase/client";
 import { RecipeDetail } from "@/types/recipes";
+import { parseStringList } from "@/utils/recipes";
 
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80";
 
@@ -239,6 +240,10 @@ async function fetchRecipeByColumn(column: "id" | "slug", value: string, userId:
 
   const { data, error } = await client.from("recipes").select(baseSelect).eq(column, value).eq("user_id", userId).maybeSingle();
 
+  if (error) {
+    console.error(error);
+  }
+
   if (data) {
     return {
       ...data,
@@ -379,31 +384,4 @@ function decodeRouteParam(value: string) {
   } catch {
     return value;
   }
-}
-
-function parseStringList(value: unknown): string[] {
-  if (Array.isArray(value)) {
-    return value.map((item) => String(item));
-  }
-  if (typeof value === "string") {
-    const trimmed = value.trim();
-    if (!trimmed) {
-      return [];
-    }
-    if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
-      try {
-        const parsed = JSON.parse(trimmed);
-        if (Array.isArray(parsed)) {
-          return parsed.map((item) => String(item));
-        }
-      } catch {
-        // ignore JSON parse failure
-      }
-    }
-    return trimmed
-      .split(/\r?\n|,/)
-      .map((item) => item.trim())
-      .filter(Boolean);
-  }
-  return [];
 }
