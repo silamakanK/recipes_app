@@ -1,9 +1,12 @@
 import type { NextConfig } from "next";
 
+type ImageConfig = NonNullable<NextConfig["images"]>;
+type RemotePatternEntry = NonNullable<ImageConfig["remotePatterns"]>[number];
+
 const supabaseUrl =
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
 
-const remotePatterns: NextConfig["images"]["remotePatterns"] = [
+const remotePatterns: RemotePatternEntry[] = [
   {
     protocol: "https",
     hostname: "images.unsplash.com",

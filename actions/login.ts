@@ -21,7 +21,13 @@ export async function login(formData: FormData) {
     return false;
   }
 
-  await createCookie(data.session!);
+  const session = data.session;
+  if (!session) {
+    console.error("Missing session in Supabase response.");
+    return false;
+  }
+
+  await createCookie(session);
  
   return true;
 }

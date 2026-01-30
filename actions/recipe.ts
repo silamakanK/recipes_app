@@ -46,12 +46,14 @@ export async function generateAiRecipe(payload: GenerateRecipeInput): Promise<Ge
     return { success: false, message: "Utilisateur non authentifié." };
   }
 
-  if (!process.env.OPENAI_KEY) {
+  const apiKey = process.env.OPENAI_API_KEY ?? process.env.OPENAI_KEY;
+
+  if (!apiKey) {
     return { success: false, message: "Clé OpenAI manquante." };
   }
 
   try {
-    const client = new OpenAI({ apiKey: process.env.OPENAI_KEY });
+    const client = new OpenAI({ apiKey });
     const instructions = buildPrompt(payload);
     const response = await client.responses.create({
       model: "gpt-4o-mini",
@@ -180,9 +182,9 @@ function createSlug(value: string) {
   return value
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)+/g, "")
+    .replaceAll(/[\u0300-\u036f]/g, "")
+    .replaceAll(/[^a-z0-9]+/g, "-")
+    .replaceAll(/(^-|-$)+/g, "")
     .slice(0, 80);
 }
 
