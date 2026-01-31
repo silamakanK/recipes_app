@@ -1,7 +1,7 @@
 "use server";
  
 import { getSession } from '@/utils/sessions';
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type User } from '@supabase/supabase-js'
  
 export default async function supabase(){
   const accessToken = await getSession();
@@ -16,13 +16,13 @@ export default async function supabase(){
   return client;
 }
  
-export async function getUser() {
+export async function getUser(): Promise<User | null> {
   const { data, error } = await (await supabase()).auth.getUser();
- 
+
   if (error) {
       console.error(error);
-      return false;
+      return null;
   }
- 
+
   return data.user;
 }
